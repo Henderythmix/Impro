@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&family=Righteous&display=swap');
+
+:root {
+    --blue: #0C71F2;
+    --left: #0DB5FC;
+    --primary: #00DEE6;
+    --right: #0DFCC1;
+    --green: #0CF278;
+    --primary-background: #333;
+    --secondary-background: #555;
+    --tertiary-background: #111;
+    --shadows: #0007;
+}
+
+body {
+    background-color: var(--primary-background);
+    color: #fff;
+    margin: 0;
+    font-size: 24px;
+    font-family: 'Balsamiq Sans', cursive;
+}
+
+/* General Classes */
+.header {
+    padding: 5px;
+    width: calc(100% - 10px);
+}
+
+.title {
+    font-family: 'Righteous', cursive;
+    font-size: 32px;
+}
+
+.album-artwork {
+    box-shadow: -5px 5px var(--shadows);
+}
+
+.icon {
+    background-color: #0000;
+    border: 0;
+    padding: 1px;
+    color: #aaa;
+    filter: brightness(70%) drop-shadow(-5px 5px var(--shadows));
+    box-shadow: 0 0 #0000;
+}
+
+button {
+    background-color: var(--secondary-background);
+    border: none;
+    box-shadow: -5px 5px var(--shadows);
+    margin: 10px;
+    color: #fff;
+    font-family: 'Balsamiq Sans', cursive;
+    padding: 5px;
+}
+
+.icon >hover {
+    color: #fff;
+    filter: brightness(100%) drop-shadow(-5px 5px var(--shadows));
+}
+
+.icon > img {
+    padding: 0px;
+    margin: 0px;
+}
+
+/* Player Customization */
+
+#player {
+    background-color: var(--secondary-background);
+    padding: 8px;
+    padding-left: 12px;
+    width: calc(100% - 20px);
+}
+
+#player > .right {
+    padding-left: 5px;
+    width: calc(100% - 60px)
+}
+
+.player-content > *, .player-content * {
+    margin: 0 3px;
+}
+
+/* Big Player and Other Popups*/
+.popup-background {
+    background-color: #0005;
+    display: none;
+}
+
+#big-player {
+    padding: 10px;
+    background-color: var(--secondary-background);
+    box-shadow: -5px 5px var(--shadows);
+    text-align: center;
+    z-index: 100;
+}
+
+/* Content Container */
+
+#content {
+    padding: 12px;
+    font-size: 12px;
+}
+
+#content .title {
+    font-size: 24px;
+}
+
+/* Finishing Things Up */
+@media only screen and (max-width: 768px) {
+    #player {
+        padding-bottom: 30px;
+    }
+}
+
+#program {
+    display: none;
+}

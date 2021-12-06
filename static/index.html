@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" href="icons/favicon-64x64.png" />
+        <link rel="apple-touch-icon-precomposed" href="icons/app-icon.png" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <title>Impro</title>
+        <link rel="stylesheet" href="css/positioning.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!--Impro - The Music Player that always has room for Improvisation -->
+    </head>
+    <body onload="initialize();">
+        <div id="loading-screen">
+            
+        </div>
+
+        <div id="program">
+            <div class="popup-background">
+                <div id="big-player">
+                    <img src="img/missing_album_artwork.png" class="album-artwork" width="280" height="280" />
+                    <div>
+                        <div id="song-name" class="title">Song</div>
+                        <div id="song-artist">Artist</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header">
+                <!--button class="icon" id="menu"><img width="32px" src="svg/menu.svg"></button-->
+                <div class="title page-title">Impro</div>
+                <!--button id="settings">Settings</button-->
+            </div>
+
+            <div id="content">
+                <div class="title">Upload File</div>
+                <div>When Ready, Press Load to hear your improvising song</div>
+                <button id="open-song" onclick="Player.LoadSongFile();">Load Song</button>
+            </div>
+
+            <div id="player">
+                <div class="left">
+                    <img src="img/missing_album_artwork.png" class="album-artwork" width="60" height="60" />
+                </div>
+                <div class="right player-content">
+                    <div id="song-controller">
+                        <button class="icon" id="play-song"><img width="24px" src="svg/play.svg" /></button>
+                        <input id="song-length" value="0" type="range" />
+                        <span id="song-time" class="desktop-only">0:00</span>
+                        <div class="desktop-only" id="volume">
+                            <img class="icon" src="svg/volume.svg" width="24px" height="24 px" />
+                            <input id="volume-knob" value="9" min="0" max="10" type="range" />
+                        </div>
+                    </div>
+                    <span>Song - Artist</span>
+                    <button class="icon" id="big-player-manager"><img width="24px" id="open-arrow" height="24px" src="svg/up_arrow.svg" /></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="hidden">
+            <input id="loaded-song" accepts="audio/*" type="file" />
+        </div>
+
+        <script src="js/songplayer.js"></script>
+        <script>
+
+            function initialize() {
+                $("#program").fadeIn();
+                programloop();
+            }
+            function programloop() {
+                Player.Update();
+
+                setTimeout(programloop, 100);
+            }
+        </script>
+    </body>
+</html>
