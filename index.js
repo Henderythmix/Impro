@@ -29,20 +29,10 @@ app.get('/API/LoadSong/:id', function(req, res) {
     res.sendFile(__dirname + '/tmp/' + req.params.id)
 })
 
-// Get the Song Data of a song (separate)
+// Get the Song Data of a song (separate); Returns a string in JSON formatting
 /*app.get('API/LoadRegularSongInfo/:id', function(req, res) {
 
-});/*
-
-/* Example JQuery POST Request
-$.ajax({
-        url: '/API/RenderSong',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({id: "test"}),
-        success: function(response){ alert(response); },
-});
-*/
+});*/
 
 app.listen(port, () => {
     console.log(`Impro is running on http://localhost:${port}`)

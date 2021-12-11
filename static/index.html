@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="icon" href="icons/favicon-64x64.png" />
-        <link rel="apple-touch-icon-precomposed" href="icons/app-icon.png" />
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        
         <title>Impro</title>
+
+        <link rel="icon" href="icons/favicon-64x64.png" />
+        <link rel="apple-touch-icon-precomposed" href="icons/app-icon.png" />
         <link rel="stylesheet" href="css/positioning.css" />
         <link rel="stylesheet" href="css/style.css" />
+        
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!--Impro - The Music Player that always has room for Improvisation -->
     </head>
@@ -25,6 +28,10 @@
                     <div>
                         <div id="song-name" class="title">Song</div>
                         <div id="song-artist">Artist</div>
+                        <div id="buttons">
+                            <button class="icon" id="play-song" onclick="Player.PlayPauseClick();"><img width="24px" id="pauseplay-icon" src="svg/play.svg" /></button>
+                            <input id="song-length" value="0" min="0" type="range" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -47,8 +54,8 @@
                 </div>
                 <div class="right player-content">
                     <div id="song-controller">
-                        <button class="icon" id="play-song"><img width="24px" src="svg/play.svg" /></button>
-                        <input id="song-length" value="0" type="range" />
+                        <button class="icon" id="play-song" onclick="Player.PlayPauseClick();"><img width="24px" id="pauseplay-icon" src="svg/play.svg" /></button>
+                        <input id="song-length" value="0" min="0" type="range" />
                         <span id="song-time" class="desktop-only">0:00</span>
                         <div class="desktop-only" id="volume">
                             <img class="icon" src="svg/volume.svg" width="24px" height="24 px" />
@@ -67,11 +74,11 @@
 
         <script src="js/songplayer.js"></script>
         <script>
-
             function initialize() {
                 $("#program").fadeIn();
                 programloop();
             }
+
             function programloop() {
                 Player.Update();
 

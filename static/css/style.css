@@ -96,6 +96,10 @@ button {
     z-index: 100;
 }
 
+#song-time {
+    width: 70px
+}
+
 /* Content Container */
 
 #content {
