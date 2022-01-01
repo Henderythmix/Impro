@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const upload = multer({dest: "tmp/"});
 
+const mm = require('music-metadata');
+
 app.use("/", express.static('static'))
 
 // API HTTP Requests //
@@ -30,9 +32,15 @@ app.get('/API/LoadSong/:id', function(req, res) {
 })
 
 // Get the Song Data of a song (separate); Returns a string in JSON formatting
-/*app.get('API/LoadRegularSongInfo/:id', function(req, res) {
-
-});*/
+app.get('/API/LoadSongMeta/:id', async function(req, res) {
+    //try {
+        let songmeta = await mm.parseFile(__dirname + "/tmp/" + req.params.id);
+        console.log(songmeta);
+        res.send(JSON.stringify(songmeta));
+    //} catch (error) {
+    //    res.send("ERROR");
+    //}
+});
 
 app.listen(port, () => {
     console.log(`Impro is running on http://localhost:${port}`)

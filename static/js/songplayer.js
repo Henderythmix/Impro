@@ -1,6 +1,6 @@
 var Player = {
     SongLoader: document.getElementById("loaded-song"),
-    SongBar: document.getElementById("song-length"),
+    SongBar: document.querySelectorAll("#song-length"),
     AudioManager: [
         new Audio(),
     ],
@@ -8,6 +8,8 @@ var Player = {
     LoadedSong: null,
     PlayingSong: false,
     BigPlayerOpen: false,
+    CurrentSong: "Song",
+    CurrentArtists: "Artist",
 }
 
 Player.LoadSongFile = function() {
@@ -35,6 +37,35 @@ Player.SongLoader.addEventListener("change", function() {
 
 Player.LoadSong = function(SongID) {
     Player.AudioManager[0].src = "http://localhost:3000/API/LoadSong/" + SongID;
+
+    $.get("http://localhost:3000/API/LoadSongMeta/" + SongID, function(data, status) {
+        let NameTag = document.querySelector("#song-name");
+        let ArtistTag = document.querySelector("#song-artist");
+
+        let parseddata = JSON.parse(data);
+
+        let Song, Artist;
+
+        if (parseddata.common.title != null) {
+            Song = parseddata.common.title;
+        } else {
+            Song = SongID;
+        }
+
+        if (parseddata.common.artist != null) {
+            Artist = parseddata.common.artist;
+        } else {
+            Artist = "Unknown";
+        }
+
+        NameTag.innerHTML = Song;
+        ArtistTag.innerHTML = Artist;
+
+        document.getElementById("song-info").innerHTML = Song + " - " + Artist;
+
+        console.log(data);
+    });
+
     Player.AudioManager[0].load();
     console.log("Loaded Song:" + SongID + "; Now Playing: " + Player.AudioManager[0].src);
     Player.AudioManager[0].play();
@@ -58,9 +89,7 @@ Player.PlayPause = function(a) {
         Player.PlayingSong = false;
     } else if (a == "play") {
         // Playing
-        for (i=0; i < Player.AudioManager.length; i++) {
-            Player.AudioManager[i].play();
-        } 
+        Player.AudioManager[0].play();
         Player.PlayingSong = true;
     }
 }
@@ -68,13 +97,12 @@ Player.PlayPause = function(a) {
 
 // EVENT LISTENERS //
 
-Player.SongBar.addEventListener("mousedown", function () {
-    Player.PlayPause("pause")
+Player.SongBar[0].addEventListener("input", function () {
+    Player.AudioManager[0].currentTime = Player.SongBar[0].value;
 });
 
-Player.SongBar.addEventListener("mouseup", function () {
-    Player.AudioManager[0].currentTime = Player.SongBar.value;
-    Player.PlayPause("play")
+Player.SongBar[1].addEventListener("input", function() {
+    Player.AudioManager[0].currentTime = Player.SongBar[1].value;
 });
 
 document.getElementById("big-player-manager").onclick = function() {
@@ -90,7 +118,7 @@ document.getElementById("big-player-manager").onclick = function() {
 // UPDATE FUNCTION //
 Player.Update = function() {
     // Update Song Time Left
-    SongLeftMinutes = Math.floor(Player.AudioManager[0].duration / 60);
+    SongLeftMinutes = Math.floor((Player.AudioManager[0].duration - Player.AudioManager[0].currentTime) / 60);
     SongLeftSeconds = Math.floor((Player.AudioManager[0].duration - Player.AudioManager[0].currentTime) % 60);
 
     vSongLeftSeconds = SongLeftSeconds;
@@ -99,7 +127,7 @@ Player.Update = function() {
         vSongLeftSeconds = "0" + SongLeftSeconds;
     }
 
-    let songTime = document.querySelectorAll("song-time");
+    let songTime = document.querySelector("#song-time");
     if (isNaN(SongLeftMinutes)) {
         songTime.innerHTML = "0:00";
     } else {
@@ -130,9 +158,3 @@ Player.Update = function() {
         document.querySelectorAll("#pauseplay-icon")[1].src = "svg/pause.svg";
     }
 }
-
-// Components Currently Missing in the player script:
-/*
- - A way to display song metadata (song title, artist, album artwork, etc)
- - Getting all the functionality in the big player screen
-*/

@@ -62,7 +62,7 @@
                             <input id="volume-knob" value="9" min="0" max="10" type="range" />
                         </div>
                     </div>
-                    <span>Song - Artist</span>
+                    <span id="song-info">Song - Artist</span>
                     <button class="icon" id="big-player-manager"><img width="24px" id="open-arrow" height="24px" src="svg/up_arrow.svg" /></button>
                 </div>
             </div>
@@ -72,7 +72,7 @@
             <input id="loaded-song" accepts="audio/*" type="file" />
         </div>
 
-        <script src="js/songplayer.js"></script>
+        <script defer src="js/songplayer.js"></script>
         <script>
             function initialize() {
                 $("#program").fadeIn();

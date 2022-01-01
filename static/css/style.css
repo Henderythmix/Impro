@@ -20,10 +20,15 @@ body {
     font-family: 'Balsamiq Sans', cursive;
 }
 
+body::backdrop {
+    background-color: #0007;
+}
+
 /* General Classes */
 .header {
     padding: 5px;
     width: calc(100% - 10px);
+    background-color: #0007;
 }
 
 .title {
