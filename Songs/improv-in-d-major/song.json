@@ -1,0 +1,66 @@
+{
+    "Name": "Improv in D Major Op. 4 No. 2",
+    "Author": "Roberto Selles",
+    "Sections": [
+        {
+            "BPM": 95,
+            "Numerator": 4,
+            "Denominator": 4,
+            "Improv": true,
+            "SamplesFolder": "SectionA",
+            "Chords": ["I", "iii", "IV", "V", "I", "iii", "IV", "V-V"]
+        },
+        {
+            "BPM": 95,
+            "Numerator": 4,
+            "Denominator": 4,
+            "Improv": true,
+            "SamplesFolder": "SectionA",
+            "Chords": ["I", "iii", "IV", "V", "I", "iii", "IV", "V-V"]
+        },
+        {
+            "BPM": 95,
+            "Numerator": 4,
+            "Denominator": 4,
+            "Improv": false,
+            "Bars": 8
+        },
+        {
+            "BPM": 95,
+            "Numerator": 4,
+            "Denominator": 4,
+            "Improv": true,
+            "SamplesFolder": "SectionA",
+            "Chords": ["I", "iii", "IV", "V"]
+        },
+        {
+            "BPM": 95,
+            "Numerator": 4,
+            "Denominator": 4,
+            "Improv": false,
+            "Bars": 1
+        },
+        {
+            "BPM": 95,
+            "Numerator": 4,
+            "Denominator": 4,
+            "Improv": false,
+            "Bars": 8
+        },
+        {
+            "BPM": 95,
+            "Numerator": 4,
+            "Denominator": 4,
+            "Improv": true,
+            "SamplesFolder": "SectionA",
+            "Chords": ["I", "iii", "IV", "V"]
+        },
+        {
+            "BPM": 95,
+            "Numerator": 4,
+            "Denominator": 4,
+            "Improv": false,
+            "Bars": 1
+        }
+    ]
+}
