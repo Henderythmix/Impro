@@ -8,16 +8,18 @@ const upload = multer({dest: "tmp/"});
 
 const mm = require('music-metadata');
 
+const exec = require('child_process').exec;
+
 app.use("/", express.static('static'))
 
 // API HTTP Requests //
 
-app.use('/API', bodyParser.json({limit: '100mb'}));
+app.use('/API', bodyParser.json({limit: '500mb'}));
 
 // This is a test function
 app.get('/API/test', function(req, res) {
     res.send('This is a Test API Call. Nothing Really happens, you just get this text lol')
-    console.log("Ok it's actually happening... Everybody Stay Calm! STAY ****ING CALM!!!")
+    console.log("Ok it's actually happening... Everybody Stay Calm!")
 });
 
 // Upload a song file using this
@@ -41,6 +43,17 @@ app.get('/API/LoadSongMeta/:id', async function(req, res) {
     //    res.send("ERROR");
     //}
 });
+
+app.get('/API/imp/LoadSong/:id', function(req, res) {
+    exec("python ./python/impromanager.py --generate-song " + req.params.id, function(error, stdout, stderr) {
+        console.log(stdout)
+        res.send(JSON.stringify(__dirname + "/temp.wav"))
+    });
+});
+
+app.get('/API/imp/LoadSongMeta/:id', function(req, res) {
+    res.sendFile(__dirname + "/Songs/" + req.params.id + "/song.json")
+})
 
 app.listen(port, () => {
     console.log(`Impro is running on http://localhost:${port}`)

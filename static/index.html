@@ -46,6 +46,9 @@
                 <div class="title">Upload File</div>
                 <div>When Ready, Press Load to hear your improvising song</div>
                 <button id="open-song" onclick="Player.LoadSongFile();">Load Song</button>
+                <div class="title">Demo Song</div>
+                <div>Optionally, if you want to hear the improvising song demo included (because currently I have not setup song loading for a file format)</div>
+                <button id="open-song" onclick="PlayDemoSong();">Play Demo Song</button>
             </div>
 
             <div id="player">
@@ -73,6 +76,7 @@
         </div>
 
         <script defer src="js/songplayer.js"></script>
+        <script src="js/demosong.js"></script>
         <script>
             function initialize() {
                 $("#program").fadeIn();
@@ -82,7 +86,7 @@
             function programloop() {
                 Player.Update();
 
-                setTimeout(programloop, 100);
+                setTimeout(programloop, 10);
             }
         </script>
     </body>

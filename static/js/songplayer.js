@@ -1,10 +1,11 @@
 var Player = {
     SongLoader: document.getElementById("loaded-song"),
     SongBar: document.querySelectorAll("#song-length"),
-    AudioManager: [
-        new Audio(),
-    ],
-    Queue: [],
+    AudioManager: {
+        0: new Audio(),
+    },
+    BPS: 1,
+    CurrentBar: 0,
     LoadedSong: null,
     PlayingSong: false,
     BigPlayerOpen: false,
@@ -30,46 +31,82 @@ Player.SongLoader.addEventListener("change", function() {
         processData: false,
         data: songUpload,
         success: function(data, status) {
-            Player.LoadSong(data);
+            Player.LoadSong("sound", data);
         },
     });
 });
 
-Player.LoadSong = function(SongID) {
-    Player.AudioManager[0].src = "http://localhost:3000/API/LoadSong/" + SongID;
+Player.LoadSong = function(type, SongID) {
+    let NameTag = document.querySelector("#song-name");
+    let ArtistTag = document.querySelector("#song-artist");
+    let SongInfo = document.querySelector("#song-info");
 
-    $.get("http://localhost:3000/API/LoadSongMeta/" + SongID, function(data, status) {
-        let NameTag = document.querySelector("#song-name");
-        let ArtistTag = document.querySelector("#song-artist");
+    if (type == "sound") {
+        // This is if it is to load a normal wave file
+        Player.AudioManager[0].src = "http://localhost:3000/API/LoadSong/" + SongID;
 
-        let parseddata = JSON.parse(data);
+        $.get("http://localhost:3000/API/LoadSongMeta/" + SongID, function(data, status) {
 
-        let Song, Artist;
+            let parseddata = JSON.parse(data);
 
-        if (parseddata.common.title != null) {
-            Song = parseddata.common.title;
-        } else {
-            Song = SongID;
-        }
+            let Song, Artist;
 
-        if (parseddata.common.artist != null) {
-            Artist = parseddata.common.artist;
-        } else {
+            if (parseddata.common.title != null) {
+                Song = parseddata.common.title;
+            } else {
+                Song = SongID;
+            }
+
+            if (parseddata.common.artist != null) {
+                Artist = parseddata.common.artist;
+            } else {
             Artist = "Unknown";
-        }
+            }
 
-        NameTag.innerHTML = Song;
-        ArtistTag.innerHTML = Artist;
+            NameTag.innerHTML = Song;
+            ArtistTag.innerHTML = Artist;
+            SongInfo.innerHTML = Song + " - " + Artist;
 
-        document.getElementById("song-info").innerHTML = Song + " - " + Artist;
+            document.getElementById("song-info").innerHTML = Song + " - " + Artist;
 
-        console.log(data);
-    });
+            console.log(data);
+        }).then(function() {
+            for (i=0; i < Player.AudioManager.length; i++) {
+                Player.AudioManager[i].load();
+            }
+            console.log("Loaded Song:" + SongID + "; Now Playing: " + Player.AudioManager[0].src);
+            let playPromise = Player.AudioManager[0].play();
 
-    Player.AudioManager[0].load();
-    console.log("Loaded Song:" + SongID + "; Now Playing: " + Player.AudioManager[0].src);
-    Player.AudioManager[0].play();
-    Player.PlayingSong = true
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    Player.PlayingSong = true
+                })
+            }
+        })
+    } else if (type == "package") {
+        $.get("http://localhost:3000/API/imp/LoadSongMeta/" + SongID, function(data, status) {
+            let parseddata = data;
+
+            NameTag.innerHTML = parseddata.SongName;
+            ArtistTag.innerHTML = parseddata.Artist;
+            SongInfo.innerHTML = parseddata.SongName + " - " + parseddata.Artist;
+        }).then(function() {
+            Player.AudioManager[0].src = "http://localhost:3000/API/imp/LoadSong/" + SongID;
+        }).then(function() {
+
+            for (i=0; i < Player.AudioManager.length; i++) {
+                if (Player.AudioManager[i] != null) Player.AudioManager[i].load();
+            }
+            console.log("Loaded Song:" + SongID + "; Now Playing: " + Player.AudioManager[0].src);
+            let playPromise = Player.AudioManager[0].play();
+
+            if (playPromise !== undefined) {
+                console.log("play")
+            }
+
+            Player.PlayingSong = true;
+        });
+    }
 }
 
 Player.PlayPauseClick = function() {
@@ -143,7 +180,7 @@ Player.Update = function() {
         songLength[1].max = Player.AudioManager[0].duration;
         songLength[1].value = Player.AudioManager[0].currentTime;
     }
-
+    
     // Just Easily Controlling Volume
     for (i=0; i < Player.AudioManager.length; i++) {
         Player.AudioManager[i].volume = document.getElementById("volume-knob").value / 10;
