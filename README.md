@@ -15,6 +15,8 @@ There are a few programs that are required
  - node (at least v12.22.5)
  - python (at least 3.9.2)
 
+to start, in your terminal `git clone https://github.com/DigitDorian/Impro.git
+
 To run the server end, you can run `npm start` or `node server.js` and that will start the server. if you want to test the desktop client, you can run `npm test` or `npx electron clientapp.js`.
 Run `npm install` in the project root directory to install the required dependencies.
 
